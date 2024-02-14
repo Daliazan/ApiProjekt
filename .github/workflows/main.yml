@@ -17,12 +17,12 @@ jobs:
         uses: actions/setup-dotnet@v4
         with:
           dotnet-version: '6.0'
+- name: Restore project
+  run: dotnet restore
 
-      - name: Build project
-        run: 
-          dotnet restore 
-          dotnet publish 
-        
+- name: Publish project
+  run: dotnet publish -o site
+
       - name: Create zip package
         run: 
          cd site; zip ../site.zip *;
