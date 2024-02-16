@@ -35,3 +35,4 @@ jobs:
           environment_name: Api-projekt-env
           version_label: ${{ github.run_id }}
           region: eu-north-1
+
