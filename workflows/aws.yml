@@ -1,0 +1,39 @@
+name: Build and push to AWS
+
+on:
+  push:
+    branches:
+      - Readme
+      
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repo
+        uses: actions/checkout@v4
+
+      - name: Setup dotnet
+        uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: '6.0'
+
+      - name: Build project
+        run: |
+          dotnet restore ApiProjekt/ApiProjekt.csproj
+          dotnet publish ApiProjekt/APiprojekt.csproj -o ApiProjekt
+        
+
+      - name: Create zip package
+        run: cd ApiProjekt; zip ../ApiProjekt.zip *;
+
+      - name: Deploy to AWS EB
+        uses: einaregilsson/beanstalk-deploy@v21
+        with:
+          aws_access_key: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws_secret_key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          application_name: Api-projekt
+          environment_name: Api-projekt-env
+          version_label: ${{ github.run_id }}
+          region: eu-north-1
