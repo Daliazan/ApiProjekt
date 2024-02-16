@@ -4,7 +4,6 @@ on:
   push:
     branches:
       - master
-      
 
 jobs:
   build:
@@ -21,12 +20,11 @@ jobs:
 
       - name: Build project
         run: |
-          dotnet restore ApiProjekt/ApiProjekt.csproj
-          dotnet publish ApiProjekt/ApiProjekt.csproj -o ApiProjekt
+          dotnet restore /OneDrive/Skrivbord/aws/ApiProjekt/ApiProjekt.csproj
+          dotnet publish /OneDrive/Skrivbord/aws/ApiProjekt/ApiProjekt.csproj -o ApiProjekt
         
-
       - name: Create zip package
-        run: cd ApiProjekt; zip ../ApiProjekt.zip *;
+        run: cd /OneDrive/Skrivbord/aws/ApiProjekt; zip ../ApiProjekt.zip *;
 
       - name: Deploy to AWS EB
         uses: einaregilsson/beanstalk-deploy@v21
