@@ -20,13 +20,12 @@ jobs:
 
       - name: Build project
         run: |
-          dotnet restore aws-/ApiProjekt/ApiProjekt.csproj
-          dotnet publish aws-/ApiProjekt/ApiProjekt.csproj -c Release -o ApiProjekt
+          dotnet restore ApiProjekt.csproj
+          dotnet publish ApiProjekt.csproj -c Release -o ApiProjekt
         
       - name: Create zip package
         run: |
-          cd aws-/ApiProjekt
-          zip -r ApiProjekt.zip .
+          zip -r ApiProjekt.zip ApiProjekt
 
       - name: Deploy to AWS EB
         uses: einaregilsson/beanstalk-deploy@v21
