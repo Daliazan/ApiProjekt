@@ -3,7 +3,8 @@ name: Build and push to AWS
 on:
   push:
     branches:
-      - master
+      - Readme
+      
 
 jobs:
   build:
@@ -18,17 +19,23 @@ jobs:
         with:
           dotnet-version: '6.0'
 
-- name: Build projekt 
-  run:
-  dornet restore ApiProjekt/ApiProjekt.csporj
+      - name: Build project
+        run: |
+         dornet restore ApiProjekt/ApiProjekt.csporj
   dotnet publish ApiProjekt/Apiprojekt.csporj
 
+        
+
       - name: Create zip package
-        run: 
-         cd ApiProjekt; zip ../ApiProjekt.zip *;
+        run: cd ApiProjekt; zip ../ApiProjekt.zip *;
 
       - name: Deploy to AWS EB
         uses: einaregilsson/beanstalk-deploy@v21
         with:
           aws_access_key: ${{ secrets.AWS_ACCESS_KEY_ID }}
           aws_secret_key: ${{ secrets.AWS_SECRET_ACCESS_KEY_ }}
+          application_name: Api-projekt
+          environment_name: Api-projekt-env
+          version_label: ${{ github.run_id }}
+          region: eu-north-1
+          deployment_package: ApiProjekt.zip
