@@ -1,5 +1,4 @@
-name: Build and push to AWS
-
+name: Build-aws
 on:
   push:
     branches:
@@ -10,25 +9,25 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      - name: Checkout repo
-        uses: actions/checkout@v4
+      - name: Checkout Repository
+        uses: actions/checkout@v3
 
-      - name: Setup dotnet
-        uses: actions/setup-dotnet@v4
+      - name: Setup .NET Core SDK
+        uses: actions/setup-dotnet@v3
         with:
           dotnet-version: '6.0'
 
-      - name: Build project
+      - name: Build and Publish projekt
         run: |
-          dotnet restore ApiProjekt/ApiProjekt.csproj
-          dotnet publish ApiProjekt/ApiProjekt.csproj -c Release -o publish
+          dotnet restore 
+          dotnet publish -c Release -o ./publish
 
       - name: Create zip package
         run: |
-          cd publish
+          cd ./publish
           zip -r ../ApiProjekt.zip .
 
-      - name: Deploy to AWS EB
+      - name: Deploy to AWS Elastic Beanstalk
         uses: einaregilsson/beanstalk-deploy@v21
         with:
           aws_access_key: ${{ secrets.AWS_ACCESS_KEY_ID }}
