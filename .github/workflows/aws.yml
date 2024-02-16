@@ -21,14 +21,14 @@ jobs:
 
       - name: Build project
         run: |
-          cd $GITHUB_WORKSPACE/ApiProjekt
-          dotnet restore
-          dotnet publish -o ApiProjekt
+          cd $HOME/OneDrive/Skrivbord/aws-/ApiProjekt
+          dotnet restore ApiProjekt.csproj
+          dotnet publish ApiProjekt.csproj -o ApiProjekt
         
       - name: Create zip package
         run: |
-          cd $GITHUB_WORKSPACE/ApiProjekt
-          zip -r ../ApiProjekt.zip .
+          cd $HOME/OneDrive/Skrivbord/aws-/ApiProjekt
+          zip -r $HOME/OneDrive/Skrivbord/aws-/ApiProjekt.zip .
 
       - name: Deploy to AWS EB
         uses: einaregilsson/beanstalk-deploy@v21
@@ -39,4 +39,4 @@ jobs:
           environment_name: Api-projekt-env
           version_label: ${{ github.run_id }}
           region: eu-north-1
-          deployment_package: ApiProjekt.zip
+          deployment_package: $HOME/OneDrive/Skrivbord/aws-/ApiProjekt.zip
