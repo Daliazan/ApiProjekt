@@ -20,8 +20,9 @@ jobs:
 
       - name: Build project
         run: |
-          dotnet restore /OneDrive/Skrivbord/aws/ApiProjekt/ApiProjekt.csproj
-          dotnet publish /OneDrive/Skrivbord/aws/ApiProjekt/ApiProjekt.csproj -o ApiProjekt
+          cd /OneDrive/Skrivbord/aws/ApiProjekt
+          dotnet restore
+          dotnet publish -o ApiProjekt
         
       - name: Create zip package
         run: cd /OneDrive/Skrivbord/aws/ApiProjekt; zip ../ApiProjekt.zip *;
