@@ -1,42 +1,24 @@
-name: Build and push to AWS
-
+name: Run XUnit Tests on Push
 on:
   push:
     branches:
-      - master
-      
+        - unitTests
+        - dev
 
 jobs:
   build:
     runs-on: ubuntu-latest
 
     steps:
-      - name: Checkout repo
-        uses: actions/checkout@v4
+    - uses: actions/checkout@v4
 
-      - name: Setup dotnet
-        uses: actions/setup-dotnet@v4
-        with:
-          dotnet-version: '6.0'
+    - name: Set up .NET
+      uses: actions/setup-dotnet@v4
+      with:
+        dotnet-version: '6.x'
 
-      - name: Build project
-        run: |
-          cd $HOME/OneDrive/Skrivbord/aws-/ApiProjekt
-          dotnet restore ApiProjekt.csproj
-          dotnet publish ApiProjekt.csproj -o ApiProjekt
-        
-      - name: Create zip package
-        run: |
-          cd $HOME/OneDrive/Skrivbord/aws-/ApiProjekt
-          zip -r $HOME/OneDrive/Skrivbord/aws-/ApiProjekt.zip .
+    - name: Restore dependencies
+      run: dotnet restore ApiProjekt/ApiProjektcsproj
 
-      - name: Deploy to AWS EB
-        uses: einaregilsson/beanstalk-deploy@v21
-        with:
-          aws_access_key: ${{ secrets.AWS_ACCESS_KEY_ID }}
-          aws_secret_key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-          application_name: Api-projekt
-          environment_name: Api-projekt-env
-          version_label: ${{ github.run_id }}
-          region: eu-north-1
-          deployment_package: $HOME/OneDrive/Skrivbord/aws-/ApiProjekt.zip
+    - name: Run XUnit Tests
+      run: dotnet test ApiProjekt/ApiProjekt.csproj
