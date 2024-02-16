@@ -17,15 +17,15 @@ jobs:
         uses: actions/setup-dotnet@v4
         with:
           dotnet-version: '6.0'
-- name: Restore project
-  run: dotnet restore
 
-- name: Publish project
-  run: dotnet publish -o site
+- name: Build projekt 
+  run:
+  dornet restore ApiProjekt/ApiProjekt.csporj
+  dotnet piblish ApiProjekt/Apiprojekt.csporj
 
       - name: Create zip package
         run: 
-         cd site; zip ../site.zip *;
+         cd ApiProjekt; zip ../ApiProjekt.zip *;
 
       - name: Deploy to AWS EB
         uses: einaregilsson/beanstalk-deploy@v21
