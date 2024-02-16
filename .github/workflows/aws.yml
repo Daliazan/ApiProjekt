@@ -4,6 +4,7 @@ on:
   push:
     branches:
       - master
+      
 
 jobs:
   build:
@@ -20,12 +21,14 @@ jobs:
 
       - name: Build project
         run: |
-          cd /c/Users/Dilan/OneDrive/Skrivbord/aws-/ApiProjekt
+          cd $GITHUB_WORKSPACE/ApiProjekt
           dotnet restore
           dotnet publish -o ApiProjekt
         
       - name: Create zip package
-        run: cd /c/Users/Dilan/OneDrive/Skrivbord/aws-/ApiProjekt; zip ../ApiProjekt.zip *;
+        run: |
+          cd $GITHUB_WORKSPACE/ApiProjekt
+          zip -r ../ApiProjekt.zip .
 
       - name: Deploy to AWS EB
         uses: einaregilsson/beanstalk-deploy@v21
@@ -37,4 +40,3 @@ jobs:
           version_label: ${{ github.run_id }}
           region: eu-north-1
           deployment_package: ApiProjekt.zip
-
