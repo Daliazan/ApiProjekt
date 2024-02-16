@@ -21,7 +21,7 @@ jobs:
 - name: Build projekt 
   run:
   dornet restore ApiProjekt/ApiProjekt.csporj
-  dotnet piblish ApiProjekt/Apiprojekt.csporj
+  dotnet publish ApiProjekt/Apiprojekt.csporj
 
       - name: Create zip package
         run: 
@@ -32,8 +32,3 @@ jobs:
         with:
           aws_access_key: ${{ secrets.AWS_ACCESS_KEY_ID }}
           aws_secret_key: ${{ secrets.AWS_SECRET_ACCESS_KEY_ }}
-          application_name: Api projekt
-          environment_name: Api-projekt-env
-          version_label: ${{ github.run_id }}
-          region: us-east-1
-          deployment_package: site.zip
