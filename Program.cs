@@ -18,13 +18,13 @@ app.UseSwagger();
 app.UseSwaggerUI();
 
 // Krypterar endpoint
-app.MapPost("/encrypt", (EncryptionService encryptionService, string plaintext) =>
+app.MapGet("/encrypt", (EncryptionService encryptionService, string plaintext) =>
 {
     return Results.Ok(new { encryptedText = encryptionService.Encrypt(plaintext) });
 });
 
 // Avkrypterar endpoint
-app.MapPost("/decrypt", (EncryptionService encryptionService, string encryptedText) =>
+app.MapGet("/decrypt", (EncryptionService encryptionService, string encryptedText) =>
 {
     return Results.Ok(new { decryptedText = encryptionService.Decrypt(encryptedText) });
 });
